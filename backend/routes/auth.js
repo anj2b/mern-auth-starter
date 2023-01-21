@@ -1,0 +1,16 @@
+const express = require("express")
+const jwt = require("jsonwebtoken");
+const bcrypt = require("bcrypt");
+const User = require("../models/user")
+// controller functions
+const { loginUser, signupUser } = require('../controllers/authController')
+
+const router = express.Router()
+
+// login route
+router.post('/login', loginUser)
+
+// signup route
+router.post('/signup', signupUser)
+
+module.exports = router
