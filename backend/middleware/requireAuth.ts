@@ -1,7 +1,7 @@
-const jwt = require('jsonwebtoken')
-const User = require('../models/user')
+import jwt from 'jsonwebtoken'
+import User from '../models/user'
 
-const requireAuth = async (req, res, next) => {
+const requireAuth = async (req: any, res: any, next: any) => {
     // verify user is authenticated
     const { authorization } = req.headers
 
@@ -23,4 +23,4 @@ const requireAuth = async (req, res, next) => {
     }
 }
 
-module.exports = requireAuth
+export default requireAuth;
