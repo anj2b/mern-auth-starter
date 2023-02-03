@@ -1,9 +1,7 @@
 import express, { Router } from "express";
-import jwt from "jsonwebtoken";
-import bcrypt from "bcrypt";
 
 // controller functions
-import { loginUser, signupUser } from '../controllers/authController'
+import { loginUser, signupUser, refreshUser } from '../controllers/authController'
 
 const router: Router = express.Router();
 
@@ -12,5 +10,8 @@ router.post('/login', loginUser);
 
 // signup route
 router.post('/signup', signupUser);
+
+// refresh route
+router.post('/refresh', refreshUser);
 
 export default router;
