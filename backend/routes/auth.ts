@@ -1,7 +1,7 @@
 import express, { Router } from "express";
 
 // controller functions
-import { loginUser, signupUser, refreshUser } from '../controllers/authController'
+import { loginUser, signupUser, refreshUser, verifyUser } from '../controllers/authController'
 
 const router: Router = express.Router();
 
@@ -13,5 +13,8 @@ router.post('/signup', signupUser);
 
 // refresh route
 router.post('/refresh', refreshUser);
+
+// verify route
+router.post('/verify', verifyUser);
 
 export default router;

@@ -1,24 +1,24 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useAuth } from '../contexts/AuthContext';
-import { useNavigate, Link } from 'react-router-dom';
+import { Navigate, Link } from 'react-router-dom';
 
 const Register: React.FC = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const { register, user } = useAuth();
-    const navigate = useNavigate();
 
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        register(email, password);
+        try {
+            await register(email, password);
+        } catch (err) {
+            console.log(err);
+        }
     };
 
-    useEffect(() => {
-        if (user) {
-            navigate("/dashboard");
-        }
-    }, [user, navigate]);
-
+    if (user) {
+        return <Navigate to="/dashboard" />;
+    }
     return (
         <div className="flex-col justify-center text-center">
             <h1 className="text-2xl font-bold mb-4">Sign Up</h1>

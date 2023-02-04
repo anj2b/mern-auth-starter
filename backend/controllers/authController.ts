@@ -105,5 +105,18 @@ const refreshUser = async (req: any, res: any) => {
     }
 }
 
+const verifyUser = async (req: any, res: any) => {
+    const { token } = req.body;
 
-export { signupUser, loginUser, refreshUser };
+    try {
+        const { _id } = jwt.verify(token, process.env.SECRET);
+
+        res.status(200).json({ _id });
+    } catch (error) {
+        res.status(400).json({ error: error.message });
+    }
+}
+
+
+
+export { signupUser, loginUser, refreshUser, verifyUser };

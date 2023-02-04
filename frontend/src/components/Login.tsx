@@ -1,12 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useAuth } from "../contexts/AuthContext";
-import { useNavigate, Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 
 const Login: React.FC = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const { login, user } = useAuth();
-    const navigate = useNavigate();
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -17,12 +16,9 @@ const Login: React.FC = () => {
         }
     };
 
-    useEffect(() => {
-        if (user) {
-            navigate("/dashboard");
-        }
-    }, [user, navigate]);
-
+    if (user) {
+        return <Navigate to="/dashboard" />;
+    }
     return (
         <div className="flex-col justify-center text-center">
             <h1 className="text-2xl font-bold mb-4">Login</h1>

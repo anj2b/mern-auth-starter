@@ -1,9 +1,14 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
+import { useAuth } from '../contexts/AuthContext';
 
 const Home: React.FC = () => {
-    const Navigate = useNavigate();
+    const navigate = useNavigate();
+    const { user } = useAuth();
 
+    if (user) {
+        return <Navigate to="/dashboard" />;
+    }
     return (
         <div className="flex-col justify-center items-center h-screen">
             <div className="bg-white p-6 rounded-lg flex flex-col items-center">
@@ -11,10 +16,10 @@ const Home: React.FC = () => {
                 <h2 className="text-xl font-medium mb-4">Welcome to the home page</h2>
             </div>
             <div className="flex justify-center">
-                <button className="bg-indigo-500 text-white p-2 rounded-lg hover:bg-indigo-600" onClick={() => Navigate('/login')}>
+                <button className="bg-indigo-500 text-white p-2 rounded-lg hover:bg-indigo-600" onClick={() => navigate('/login')}>
                     Login
                 </button>
-                <button className="bg-indigo-500 text-white p-2 rounded-lg hover:bg-indigo-600" onClick={() => Navigate('/signup')}>
+                <button className="bg-indigo-500 text-white p-2 rounded-lg hover:bg-indigo-600" onClick={() => navigate('/signup')}>
                     Register
                 </button>
             </div>

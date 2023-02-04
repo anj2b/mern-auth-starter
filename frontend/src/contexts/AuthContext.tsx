@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useState, useEffect } from "react";
 
 export interface AuthContextProps {
     user: any;
@@ -25,6 +25,12 @@ export function useAuth() {
 export const AuthProvider = ({ children }: any) => {
     const [user, setUser] = useState(null);
 
+    useEffect(() => {
+        if (localStorage.getItem('user')) {
+            setUser(JSON.parse(localStorage.getItem('user') || null));
+        }
+    }, []);
+
     const login = async (email: string, password: string) => {
         fetch('http://localhost:3030/auth/login', {
             method: 'POST',
@@ -34,7 +40,8 @@ export const AuthProvider = ({ children }: any) => {
             body: JSON.stringify({ email, password })
         })
             .then(res => res.json())
-            .then(data => { setUser(data) })
+            .then(data => { localStorage.setItem('user', JSON.stringify(data)) })
+            .then(() => { setUser(JSON.parse(localStorage.getItem('user') || null)) })
             .catch(err => console.log(err))
     };
 
@@ -47,12 +54,14 @@ export const AuthProvider = ({ children }: any) => {
             body: JSON.stringify({ email, password })
         })
             .then(res => res.json())
-            .then(data => { setUser(data) })
+            .then(data => { localStorage.setItem('user', JSON.stringify(data)) })
+            .then(() => { setUser(JSON.parse(localStorage.getItem('user') || null)) })
             .catch(err => console.log(err))
     };
 
     const logout = () => {
         setUser(null);
+        localStorage.removeItem('user');
     };
 
     const refresh = () => {
@@ -64,7 +73,7 @@ export const AuthProvider = ({ children }: any) => {
             body: JSON.stringify({ token: user.refreshToken })
         })
             .then(res => res.json())
-            .then(data => { setUser(data) })
+            .then(data => { localStorage.setItem('user', JSON.stringify(data)) })
             .catch(err => console.log(err))
     };
 
